@@ -39,6 +39,12 @@ yarn-error.log*
 # claude code local settings
 .claude/settings.local.json
 
+# generado por scripts/copy-pdf-worker.mjs (ver postinstall/predev/prebuild)
+/public/pdf.worker.min.mjs
+
+# scratch / exploración local, no forma parte del sitio
+/scratch/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
