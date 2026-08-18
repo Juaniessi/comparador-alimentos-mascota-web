@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Comparador de precios — versión web
 
-## Getting Started
+Versión web del [script de Python](../Comparador%20alimentos%20mascota/) que
+compara precios de costo de alimento para mascotas entre proveedores. La
+idea es que corra **100% en el navegador** (sin backend): subís los PDF,
+se procesan ahí mismo, y descargás el Excel.
 
-First, run the development server:
+## Estado actual: solo la pantalla de carga
+
+Por ahora **no hay procesamiento conectado**. Lo que existe es la pantalla
+donde se sube un PDF por proveedor, con estado visual claro de "ya
+cargado" (nombre, tamaño, reemplazar/quitar) y validación de que el
+archivo sea un PDF. El botón "Generar comparativa" solo muestra un aviso
+de que el procesamiento todavía no está implementado.
+
+Se construyó así a propósito: primero validar que la experiencia de carga
+sea clara y funcione bien, antes de portar toda la lógica de Python
+(parseo de PDF, fórmulas de costo, comparativa) al navegador.
+
+## Cómo correrlo
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js (App Router) + TypeScript + Tailwind CSS.
+- Todo client-side (`"use client"`) porque eventualmente todo el
+  procesamiento va a correr en el navegador — no hay ni va a haber un
+  backend propio.
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+- `src/lib/proveedores.ts` — lista de proveedores conocidos (hoy: Nutribon,
+  Insuga PetFood). Agregar uno nuevo acá es el primer paso para sumarlo a
+  la pantalla.
+- `src/components/UploadSlot.tsx` — el cuadro de carga por proveedor
+  (drag&drop + click, estado "ya cargado", reemplazar/quitar, validación
+  de tipo de archivo).
+- `src/app/page.tsx` — arma la pantalla con un `UploadSlot` por proveedor
+  y el botón de generar (todavía sin conectar).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Próximos pasos (no implementado todavía)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Correr Python en el navegador vía **Pyodide** (WebAssembly) para
+   reutilizar tal cual la lógica ya escrita y probada en el script de
+   Python (`parse_nutribon.py`, `parse_insuga.py`, `pricing.py`,
+   `compare.py`, `build_excel.py`) en vez de reescribirla en JS.
+2. Al tocar "Generar comparativa": pasarle los `File` subidos a Pyodide,
+   correr el pipeline, y ofrecer el `.xlsx` resultante para descargar
+   (con un blob URL, sin subir nada a ningún servidor).
+3. Advertencia de carga inicial: Pyodide + las librerías Python (pdfplumber,
+   pandas, openpyxl) pesan varios MB — la primera carga de la página va a
+   tardar. El usuario ya confirmó que esto no es un problema.
+4. Portar la función de detectar "carpeta sin parser" del script de Python:
+   acá no hay carpetas, pero el equivalente sería permitir subir un PDF de
+   un proveedor no listado en `proveedores.ts` y mostrar el mismo tipo de
+   aviso en vez de fallar en silencio.
