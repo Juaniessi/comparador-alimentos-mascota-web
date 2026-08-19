@@ -1,4 +1,4 @@
-import { INSUGA_EXPLICACION, NUTRIBON_EXPLICACION } from "./pricing";
+import { INSUGA_PASOS, NOTA_REDONDEO, NUTRIBON_PASOS } from "./pricing";
 
 export type Proveedor = {
   id: string;
@@ -7,7 +7,8 @@ export type Proveedor = {
   logo: string;
   /** Clase Tailwind de fondo para logos con letras claras / fondo transparente. */
   logoFondo?: string;
-  explicacion: string;
+  pasosCosto: string[];
+  notaCosto: string;
 };
 
 // Lista de proveedores que el sitio sabe pedir. Se amplía a mano cuando se
@@ -20,7 +21,8 @@ export const PROVEEDORES: Proveedor[] = [
     nombre: "Nutribon",
     descripcion: "Incluye nutribon, nutribon XQ y matute",
     logo: "/logos/nutribon.png",
-    explicacion: NUTRIBON_EXPLICACION,
+    pasosCosto: NUTRIBON_PASOS,
+    notaCosto: NOTA_REDONDEO,
   },
   {
     id: "insuga",
@@ -28,6 +30,7 @@ export const PROVEEDORES: Proveedor[] = [
     descripcion: 'Lista "Puesto en Planta Puerto Tirol"',
     logo: "/logos/insuga.png",
     logoFondo: "bg-neutral-900",
-    explicacion: INSUGA_EXPLICACION,
+    pasosCosto: INSUGA_PASOS,
+    notaCosto: NOTA_REDONDEO,
   },
 ];

@@ -155,7 +155,11 @@ export default function UploadSlot({
           />
         </div>
 
-        <ExplicacionCosto texto={proveedor.explicacion} className="sm:flex-[2]" />
+        <ExplicacionCosto
+          pasos={proveedor.pasosCosto}
+          nota={proveedor.notaCosto}
+          className="sm:flex-[2]"
+        />
       </div>
     </div>
   );

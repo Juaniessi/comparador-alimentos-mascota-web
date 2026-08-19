@@ -14,6 +14,27 @@ export const INSUGA_EXPLICACION =
   'x(10/11) si es Manada ["10+1"] o x(10/12) si es Seguidor ["10+2"]  ' +
   "x1,105 (IVA 10,5%)  x1,015 (+1,5%).  Cada paso se redondea a 2 decimales.";
 
+// Mismas fórmulas que arriba, desglosadas paso a paso para mostrar en el
+// sitio como lista (el texto de una sola línea de arriba se usa tal cual
+// en el Excel).
+export const NUTRIBON_PASOS: string[] = [
+  "Partimos del precio de lista por unidad, sin IVA.",
+  "Restamos 20% → ×0,80.",
+  "Restamos 9% → ×0,91.",
+  "Sumamos el IVA (10,5%) → ×1,105.",
+  "Restamos 3% → ×0,97.",
+];
+
+export const INSUGA_PASOS: string[] = [
+  "Partimos del precio de lista, sin IVA.",
+  'Restamos 25% de descuento "por Equipo" → ×0,75.',
+  'Aplicamos el descuento por grupo: ×(10/11) si es Manada ("10+1"), o ×(10/12) si es Seguidor ("10+2").',
+  "Sumamos el IVA (10,5%) → ×1,105.",
+  "Sumamos 1,5% → ×1,015.",
+];
+
+export const NOTA_REDONDEO = "Cada paso se redondea a 2 decimales.";
+
 function round2(n: number): number {
   return Math.round(n * 100) / 100;
 }
