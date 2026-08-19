@@ -52,8 +52,8 @@ export default function UploadSlot({
           <Image
             src={proveedor.logo}
             alt={`Logo de ${proveedor.nombre}`}
-            width={120}
-            height={32}
+            width={proveedor.logoWidth}
+            height={proveedor.logoHeight}
             className={proveedor.logoFondo ? "h-6 w-auto" : "h-8 w-auto"}
           />
         </span>
