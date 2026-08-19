@@ -2,6 +2,12 @@
 
 **Sitio publicado:** https://juaniessi.github.io/comparador-alimentos-mascota-web/
 
+**Antes de tocar el parseo de PDF o sumar un proveedor, leer
+[`MEMORIA_PROYECTO.md`](./MEMORIA_PROYECTO.md).** Ahí está el método para
+diagnosticar el layout de un PDF nuevo, cómo reaccionar si un PDF existente
+cambia de formato, y los gotchas de GitHub Pages que ya nos mordieron una
+vez (`basePath` en assets locales) — no es obvio con solo leer el código.
+
 Versión web del [script de Python](../Comparador%20alimentos%20mascota/) que
 compara precios de costo de alimento para mascotas entre proveedores. La
 idea es que corra **100% en el navegador** (sin backend): subís los PDF,
@@ -69,11 +75,10 @@ Abrir [http://localhost:3000](http://localhost:3000).
   `public/` (se corre solo, ver `predev`/`prebuild`/`postinstall` en
   `package.json`); ese archivo no se versiona porque se regenera solo.
 
-## Agregar un proveedor nuevo
+## Agregar un proveedor nuevo, o si un PDF existente cambia de formato
 
-Igual que en el script de Python: no hay un parser genérico a propósito
-(cada PDF de proveedor tiene su propio formato). Para sumar uno hay que
-escribir su parser en `src/lib/` (siguiendo `parseInsuga.ts` como modelo
-si el PDF no tiene bordes de tabla, o `parseNutribon.ts` si sí los tiene),
-su fórmula de costo en `pricing.ts`, agregarlo a `proveedores.ts`, y
-cablearlo en `page.tsx` y `buildExcel.ts`.
+Ver [`MEMORIA_PROYECTO.md`](./MEMORIA_PROYECTO.md) — tiene el paso a paso
+completo (incluyendo el método para diagnosticar el layout de un PDF con
+`pdfjs-dist` antes de escribir nada) porque no hay un parser genérico a
+propósito, igual que en el script de Python: cada PDF de proveedor tiene
+su propio formato.
